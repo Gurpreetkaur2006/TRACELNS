@@ -3,7 +3,7 @@
 
 **Cyber Complaint Analyzer & Pattern Tracker**
 
-A fully offline, browser-based tool for logging cybercrime complaints and detecting patterns across them — built as part of a 45-day Cyber Security Training Program.
+A fully offline, browser-based tool for logging cybercrime complaints and detecting patterns across them — built as part of Amroha Police Cyber Security Internship Program APCSIP 2026.
 
 ---
 
@@ -15,7 +15,7 @@ The core idea: cybercrime complaints are rarely investigated in isolation. The s
 
 ### Problem Statement
 
-Cybercrime helpline and FIR data is typically logged complaint-by-complaint with no easy way to see whether a phone number, UPI ID, or modus operandi has appeared before. Repeat offenders and organized fraud rings stay hidden in plain sight simply because nobody connects complaint #45 to complaint #312. This project builds a working prototype of a tool that closes that gap, using only client-side technology so it can run on any system without IT setup, internet access, or a backend server.
+Cybercrime helpline and FIR data is typically logged complaint-by-complaint with no easy way to see whether a phone number, UPI ID,  has appeared before. Repeat offenders and organized fraud rings stay hidden in plain sight simply because nobody connects complaint #45 to complaint #312. This project builds a working prototype of a tool that closes that gap, using only client-side technology so it can run on any system without IT setup, internet access, or a backend server.
 
 ### What It Does
 
@@ -60,12 +60,9 @@ No installation, no server, no dependencies.
 3. Log in with the demo credentials shown on the login screen
 4. Start registering complaints — sample seed data is included so the dashboard isn't empty on first run
 
-### Current Scope / Phase
+### Current Scope 
 
-This is **Phase 1** of a multi-phase build:
-- ✅ Phase 1 — Complaint registration, local storage, risk scoring, link analysis, dashboard (current)
-- 🔜 Phase 2 — *(describe your planned Phase 2 here, e.g. bank-account/transaction trail analysis)*
-- 🔜 Phase 3 — *(describe your planned Phase 3 here, e.g. cloud sync, multi-user roles)*
+Complaint registration, local storage, risk scoring, link analysis, and an intelligence dashboard — all running fully offline in the browser.
 
 A "Future Scope" view inside the app itself outlines further planned upgrades (cloud database integration, bank transaction parsing, AI-based fraud pattern detection, GIS mapping, role-based access control).
 
@@ -78,6 +75,4 @@ This is a training/educational prototype built for demonstration purposes during
 - Gurpreet Kaur — [https://github.com/Gurpreetkaur2006]
 - Harshpreet Kaur — [https://github.com/harshjaswal06]
 
-### License
-
-This project is for educational/training purposes. 
+### This project is for educational/training purposes. 

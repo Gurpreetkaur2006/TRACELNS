@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TraceLens Intelligence</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- --- Toast Notification System --- -->
+    <div id="toast-container"></div>
+
+    <!-- --- Printable Police Dossier Container --- -->
+    <div id="print-report-container"></div>
+
+    <!-- --- Authentication Overlay Screen --- -->
+    <div id="login-screen">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-badge">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                </div>
+                <h2>TraceLens Portal</h2>
+                <p>Cyber Complaint Analyzer &amp; Pattern Tracking Suite</p>
+            </div>
+            
+            <div id="login-error" class="login-error"></div>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-username">Username</label>
+                    <div class="input-container">
+                        <span class="input-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                <circle cx="12" cy="7" r="4" />
+                            </svg>
+                        </span>
+                        <input type="text" id="login-username" placeholder="Enter username" required value="admin">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <div class="input-container">
+                        <span class="input-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                            </svg>
+                        </span>
+                        <input type="password" id="login-password" placeholder="Enter password" required value="police123">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary">
+                    Secure Log In
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                </button>
+            </form>
+
+            <div class="auth-note">
+                <strong>System Default Credentials:</strong><br>
+                Username: <code>admin</code> | Password: <code>police123</code>
+            </div>
+        </div>
+    </div>
+
+    <!-- --- Main Portal Layout --- -->
+    <div id="app-layout">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                        <polyline points="2 17 12 22 22 17" />
+                        <polyline points="2 12 12 17 22 12" />
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    <h1>TraceLens</h1>
+                    <p>Intelligence Platform</p>
+                </div>
+            </div>
+
+            <nav class="nav-menu">
+                <li class="nav-item active" data-view="dashboard">
+                    <a href="#">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="9" />
+                            <rect x="14" y="3" width="7" height="5" />
+                            <rect x="14" y="12" width="7" height="9" />
+                            <rect x="3" y="16" width="7" height="5" />
+                        </svg>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item" data-view="register">
+                    <a href="#">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                            <polyline points="14 2 14 8 20 8" />
+                            <line x1="12" y1="18" x2="12" y2="12" />
+                            <line x1="9" y1="15" x2="15" y2="15" />
+                        </svg>
+                        Register Complaint
+                    </a>
+                </li>
+                <li class="nav-item" data-view="manage">
+                    <a href="#">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="8" y1="6" x2="21" y2="6" />
+                            <line x1="8" y1="12" x2="21" y2="12" />
+                            <line x1="8" y1="18" x2="21" y2="18" />
+                            <line x1="3" y1="6" x2="3.01" y2="6" />
+                            <line x1="3" y1="12" x2="3.01" y2="12" />
+                            <line x1="3" y1="18" x2="3.01" y2="18" />
+                        </svg>
+                        Manage Cases
+                    </a>
+                </li>
+                <li class="nav-item" data-view="analysis">
+                    <a href="#">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3z" />
+                            <path d="M6 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3z" />
+                            <line x1="6" y1="12" x2="18" y2="12" />
+                        </svg>
+                        Link Analysis
+                    </a>
+                </li>
+                <li class="nav-item" data-view="intel">
+                    <a href="#">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
+                            <path d="M22 12A10 10 0 0 0 12 2v10z" />
+                        </svg>
+                        Intelligence Dashboard
+                    </a>
+                </li>
+                <li class="nav-item" data-view="scope">
+                    <a href="#">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="12" y1="16" x2="12" y2="12" />
+                            <line x1="12" y1="8" x2="12.01" y2="8" />
+                        </svg>
+                        Future Scope
+                    </a>
+                </li>
+            </nav>
+
+            <div class="sidebar-footer">
+                <li class="nav-item" data-view="logout" style="list-style: none;">
+                    <a href="#">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                            <polyline points="16 17 21 12 16 7" />
+                            <line x1="21" y1="12" x2="9" y2="12" />
+                        </svg>
+                        Log Out
+                    </a>
+                </li>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-panel">
+            
+            <header class="main-header">
+                <div class="header-title">
+                    <h2>TraceLens Intelligence</h2>
+                </div>
+                <div class="header-actions">
+                    <div class="officer-profile">
+                        <div class="officer-avatar">AD</div>
+                        <div class="officer-info">
+                            <div class="officer-name">Officer Admin</div>
+                            <div class="officer-role">Cyber Crime Cell</div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="main-content">
+
+                <!-- 1. DASHBOARD VIEW -->
+                <section id="view-dashboard" class="view-section active">
+                    <div class="grid-stats">
+                        <div class="stat-card">
+                            <span class="stat-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                    <polyline points="14 2 14 8 20 8" />
+                                </svg>
+                            </span>
+                            <span class="stat-label">Total Complaints</span>
+                            <span class="stat-value" id="stat-total-cases">0</span>
+                            <span class="stat-subtext">Registered offline database</span>
+                        </div>
+
+                        <div class="stat-card">
+                            <span class="stat-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="2" y="5" width="20" height="14" rx="2" ry="2" />
+                                    <line x1="2" y1="10" x2="22" y2="10" />
+                                </svg>
+                            </span>
+                            <span class="stat-label">UPI Fraud Cases</span>
+                            <span class="stat-value" id="stat-upi-cases">0</span>
+                            <span class="stat-subtext">Immediate action required</span>
+                        </div>
+
+                        <div class="stat-card">
+                            <span class="stat-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                                </svg>
+                            </span>
+                            <span class="stat-label">OTP Fraud Cases</span>
+                            <span class="stat-value" id="stat-otp-cases">0</span>
+                            <span class="stat-subtext">Phishing & credential harvesting</span>
+                        </div>
+
+                        <div class="stat-card">
+                            <span class="stat-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                                    <circle cx="9" cy="7" r="4" />
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                                </svg>
+                            </span>
+                            <span class="stat-label">Repeat Offenders</span>
+                            <span class="stat-value" id="stat-repeat-count">0</span>
+                            <span class="stat-subtext">Flagged across multi-cases</span>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
+                        <div class="card">
+                            <div class="card-title">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                                </svg>
+                                High-Risk Target Identifier
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 20px;">
+                                <div style="border-bottom: 1px solid var(--border); padding-bottom: 15px;">
+                                    <span style="font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: block; margin-bottom: 4px;">Most Reported Phone Number</span>
+                                    <div id="stat-offender-phone" style="font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--primary);">N/A</div>
+                                    <span id="stat-offender-phone-sub" style="font-size: 12px; color: var(--text-muted);">No complaints logged</span>
+                                </div>
+                                <div>
+                                    <span style="font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: block; margin-bottom: 4px;">Most Reported UPI Endpoint</span>
+                                    <div id="stat-offender-upi" style="font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--primary);">N/A</div>
+                                    <span id="stat-offender-upi-sub" style="font-size: 12px; color: var(--text-muted);">No UPI links flagged</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+                            <div class="login-badge" style="background-color: var(--primary-light); color: var(--primary); margin-bottom: 20px;">
+                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                                </svg>
+                            </div>
+                            <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 600; margin-bottom: 10px;">Link Analysis Ready</h3>
+                            <p style="font-size: 13px; color: var(--text-muted); max-width: 340px; line-height: 1.6; margin-bottom: 20px;">
+                                Connect overlapping suspect details immediately. Track relational diagrams linking victims, UPI endpoints, phone markers, and crime type signatures.
+                            </p>
+                            <button class="btn-primary" style="width: auto; padding: 10px 24px;" onclick="window.TRACELNS.App.switchView('analysis')">
+                                Launch Link Analyzer
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2. COMPLAINT REGISTRATION VIEW -->
+                <section id="view-register" class="view-section">
+                    <div class="form-layout">
+                        <!-- Left Side: Registration Form -->
+                        <div class="card">
+                            <div class="card-title">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                    <polyline points="14 2 14 8 20 8" />
+                                    <line x1="16" y1="13" x2="8" y2="13" />
+                                    <line x1="16" y1="17" x2="8" y2="17" />
+                                    <polyline points="10 9 9 9 8 9" />
+                                </svg>
+                                New Complaint Registration Form
+                            </div>
+
+                            <form id="complaint-reg-form">
+                                <div class="form-grid-2">
+                                    <div class="form-group">
+                                        <label for="reg-victim-name">Victim Full Name *</label>
+                                        <div class="input-container">
+                                            <span class="input-icon">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                                    <circle cx="12" cy="7" r="4" />
+                                                </svg>
+                                            </span>
+                                            <input type="text" id="reg-victim-name" placeholder="E.g., Aman Sharma" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="reg-victim-mobile">Victim Mobile Number *</label>
+                                        <div class="input-container">
+                                            <span class="input-icon">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                                                </svg>
+                                            </span>
+                                            <input type="text" id="reg-victim-mobile" placeholder="E.g., 9812345670" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-grid-2">
+                                    <div class="form-group">
+                                        <label for="reg-crime-type">Crime Category Type *</label>
+                                        <div class="input-container">
+                                            <span class="input-icon">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+                                                    <line x1="7" y1="7" x2="7.01" y2="7" />
+                                                </svg>
+                                            </span>
+                                            <select id="reg-crime-type" required style="padding-left: 42px;">
+                                                <option value="" disabled selected>-- Select Crime Type --</option>
+                                                <option value="UPI Fraud">UPI Fraud</option>
+                                                <option value="OTP Fraud">OTP Fraud</option>
+                                                <option value="Sextortion">Sextortion</option>
+                                                <option value="Phishing">Phishing</option>
+                                                <option value="Online Shopping Fraud">Online Shopping Fraud</option>
+                                                <option value="Social Media Hacking">Social Media Hacking</option>
+                                                <option value="Investment Scam">Investment Scam</option>
+                                                <option value="Loan App Fraud">Loan App Fraud</option>
+                                                <option value="Identity Theft">Identity Theft</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="reg-date">Incident Date *</label>
+                                        <div class="input-container">
+                                            <span class="input-icon">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                                    <line x1="16" y1="2" x2="16" y2="6" />
+                                                    <line x1="8" y1="2" x2="8" y2="6" />
+                                                    <line x1="3" y1="10" x2="21" y2="10" />
+                                                </svg>
+                                            </span>
+                                            <input type="date" id="reg-date" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-grid-2">
+                                    <div class="form-group">
+                                        <label for="reg-suspect-phone">Suspect Phone Marker (Optional)</label>
+                                        <div class="input-container">
+                                            <span class="input-icon">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M18.36 6.64a9 9 0 0 1 0 12.73m-2.82-2.82a5 5 0 0 1 0-7.07m-2.83 2.83a1 1 0 1 1 0 1.41M12 13a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+                                                </svg>
+                                            </span>
+                                            <input type="text" id="reg-suspect-phone" placeholder="Suspect phone number">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="reg-suspect-upi">Suspect UPI ID Endpoint (Optional)</label>
+                                        <div class="input-container">
+                                            <span class="input-icon">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <rect x="2" y="4" width="20" height="16" rx="2" />
+                                                    <line x1="12" y1="4" x2="12" y2="20" />
+                                                </svg>
+                                            </span>
+                                            <input type="text" id="reg-suspect-upi" placeholder="E.g., suspect@upi">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="reg-description">Case Narrative & Modus Operandi</label>
+                                    <textarea id="reg-description" rows="4" placeholder="Detail the modus operandi, transaction timeline, or narrative..." style="padding-left: 14px;"></textarea>
+                                </div>
+
+                                <button type="submit" class="btn-primary" style="margin-top: 10px;">
+                                    Register Complaint Dossier
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+                                        <polyline points="17 21 17 13 7 13 7 21" />
+                                        <polyline points="7 3 7 8 15 8" />
+                                    </svg>
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Right Side: Live Duplicate Alerts widget -->
+                        <div class="alerts-sidebar">
+                            <div class="alert-box">
+                                <div class="alert-heading">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                                        <line x1="12" y1="9" x2="12" y2="13" />
+                                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                                    </svg>
+                                    Live Duplicate Check
+                                </div>
+                                <div class="alert-status-container" id="live-alert-status">
+                                    <div class="alert-badge" id="live-alert-level">SECURE</div>
+                                    <div class="alert-body" id="live-alert-details">
+                                        Enter suspect phone or UPI details to run real-time matching checks.
+                                    </div>
+                                    <div id="live-alert-score" style="font-weight: bold; margin-top: 8px; font-size: 12px; opacity: 0.8;">Risk Score: 0</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. MANAGE CASES VIEW -->
+                <section id="view-manage" class="view-section">
+                    <div class="card" style="padding: 24px;">
+                        <div class="card-title" style="margin-bottom: 20px;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="8" y1="6" x2="21" y2="6" />
+                                <line x1="8" y1="12" x2="21" y2="12" />
+                                <line x1="8" y1="18" x2="21" y2="18" />
+                            </svg>
+                            Complaint Database Explorer
+                        </div>
+
+                        <div class="table-toolbar">
+                            <div class="search-wrapper">
+                                <span style="position: absolute; left: 14px; top: 12px; color: var(--text-muted);">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="11" cy="11" r="8" />
+                                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                                    </svg>
+                                </span>
+                                <input type="text" id="case-search" class="search-input" placeholder="Search by victim name, mobile, type, UPI...">
+                            </div>
+
+                            <div class="filter-wrapper">
+                                <select id="case-filter-type" class="select-filter">
+                                    <option value="">All Crime Types</option>
+                                    <option value="UPI Fraud">UPI Fraud</option>
+                                    <option value="OTP Fraud">OTP Fraud</option>
+                                    <option value="Sextortion">Sextortion</option>
+                                    <option value="Phishing">Phishing</option>
+                                    <option value="Online Shopping Fraud">Online Shopping Fraud</option>
+                                    <option value="Social Media Hacking">Social Media Hacking</option>
+                                    <option value="Investment Scam">Investment Scam</option>
+                                    <option value="Loan App Fraud">Loan App Fraud</option>
+                                    <option value="Identity Theft">Identity Theft</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Complaint ID</th>
+                                        <th>Victim</th>
+                                        <th>Crime Type</th>
+                                        <th>Suspect Phone</th>
+                                        <th>Suspect UPI ID</th>
+                                        <th>Risk level</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="case-table-body">
+                                    <!-- Populated programmatically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. LINK ANALYSIS VIEW -->
+                <section id="view-analysis" class="view-section">
+                    <div class="card">
+                        <div class="card-title">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3z" />
+                                <path d="M6 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3z" />
+                            </svg>
+                            Relational Link Analysis Engine
+                        </div>
+
+                        <div class="link-search-bar">
+                            <input type="text" id="analyse-phone" class="search-input" style="padding-left: 14px;" placeholder="Enter Suspect Phone Number (e.g. 9876543210)">
+                            <button id="btn-analyse" class="btn-primary" style="width: auto; padding: 0 24px;">
+                                Run Link Analysis
+                            </button>
+                        </div>
+
+                        <div class="graph-display-container" id="graph-canvas">
+                            <!-- Populated with SVG dynamically -->
+                        </div>
+
+                        <!-- Analysis results pane -->
+                        <div id="analysis-stats-panel" style="display: none;">
+                            <div class="links-summary-layout">
+                                <div class="link-data-box">
+                                    <h4>Overlapping Link Details</h4>
+                                    <ul>
+                                        <li><span>Linked Case Count</span> <strong id="link-count" style="color: var(--primary);">0</strong></li>
+                                        <li><span>Unique Crime Vectors</span> <ul id="link-types" style="display: inline-block; text-align: right; padding: 0;"></ul></li>
+                                    </ul>
+                                    <h4 style="margin-top: 15px;">Associated Victims</h4>
+                                    <ul id="link-victims" style="max-height: 120px; overflow-y: auto;">
+                                        <!-- Li details -->
+                                    </ul>
+                                    <h4 style="margin-top: 15px;">Target UPI Endpoints</h4>
+                                    <ul id="link-upis" style="max-height: 100px; overflow-y: auto;">
+                                        <!-- Li details -->
+                                    </ul>
+                                </div>
+
+                                <div id="analysis-risk-breakdown">
+                                    <!-- Built dynamically -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 5. INTELLIGENCE DASHBOARD VIEW -->
+                <section id="view-intel" class="view-section">
+                    <div class="intel-grid">
+                        <div class="card" style="padding: 20px;">
+                            <div class="card-title" style="margin-bottom: 12px; font-size: 15px;">Top 5 Suspect Phones</div>
+                            <div class="table-responsive">
+                                <table class="data-table" style="font-size: 12px;">
+                                    <thead>
+                                        <tr>
+                                            <th>Rank</th>
+                                            <th>Phone Number</th>
+                                            <th>Complaints</th>
+                                            <th>Risk Rating</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="intel-phones-body"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="card" style="padding: 20px;">
+                            <div class="card-title" style="margin-bottom: 12px; font-size: 15px;">Top 5 UPI IDs</div>
+                            <div class="table-responsive">
+                                <table class="data-table" style="font-size: 12px;">
+                                    <thead>
+                                        <tr>
+                                            <th>Rank</th>
+                                            <th>UPI Endpoint</th>
+                                            <th>Complaints</th>
+                                            <th>Risk Rating</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="intel-upis-body"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="intel-grid">
+                        <div class="card" style="padding: 20px;">
+                            <div class="card-title" style="margin-bottom: 12px; font-size: 15px;">Top Crime Categories</div>
+                            <div class="table-responsive">
+                                <table class="data-table" style="font-size: 12px;">
+                                    <thead>
+                                        <tr>
+                                            <th>Rank</th>
+                                            <th>Crime Vector</th>
+                                            <th>Case Count</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="intel-cats-body"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="card" style="padding: 20px;">
+                            <div class="card-title" style="margin-bottom: 12px; font-size: 15px;">Repeat Offenders List</div>
+                            <div class="table-responsive">
+                                <table class="data-table" style="font-size: 12px;">
+                                    <thead>
+                                        <tr>
+                                            <th>Rank</th>
+                                            <th>Offender Phone</th>
+                                            <th>Overlapped Cases</th>
+                                            <th>Assessed Risk</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="intel-repeat-body"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 6. FUTURE SCOPE VIEW -->
+                <section id="view-scope" class="view-section">
+                    <div class="card">
+                        <div class="card-title">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10" />
+                                <path d="M12 16V12M12 8h.01" />
+                            </svg>
+                            TraceLens Architecture - Future Upgrades roadmap
+                        </div>
+                        <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 24px;">
+                            The TraceLens Cyber Complaint Analyzer &amp; Pattern Tracker is engineered to scale. Below is the technical future scope roadmapped for subsequent versions.
+                        </p>
+
+                        <div class="scope-grid">
+                            <div class="scope-card">
+                                <div class="scope-header">
+                                    <div class="scope-icon-container">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                                    </div>
+                                    <h4>Cloud Database Integration</h4>
+                                </div>
+                                <p>Migrate offline storage to a centralized secure Postgres or MongoDB database with end-to-end encryption for multi-department sync.</p>
+                            </div>
+
+                            <div class="scope-card">
+                                <div class="scope-header">
+                                    <div class="scope-icon-container">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                                    </div>
+                                    <h4>Bank Account Analysis</h4>
+                                </div>
+                                <p>Automatic parsing of official bank accounts, transaction statements (CSV), and shell account networks to map financial flows.</p>
+                            </div>
+
+                            <div class="scope-card">
+                                <div class="scope-header">
+                                    <div class="scope-icon-container">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/></svg>
+                                    </div>
+                                    <h4>AI Fraud Detection</h4>
+                                </div>
+                                <p>Deploy NLP clustering models on description datasets to dynamically identify trending modus operandi and criminal cells.</p>
+                            </div>
+
+                            <div class="scope-card">
+                                <div class="scope-header">
+                                    <div class="scope-icon-container">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 0 0-10 10c0 5.25 10 10 10 10s10-4.75 10-10A10 10 0 0 0 12 2z"/><circle cx="12" cy="12" r="3"/></svg>
+                                    </div>
+                                    <h4>GIS Crime Mapping</h4>
+                                </div>
+                                <p>Plot fraud origins, IP location signatures, and cash-out points on interactive geographic map layouts using Mapbox/Leaflet.</p>
+                            </div>
+
+                            <div class="scope-card">
+                                <div class="scope-header">
+                                    <div class="scope-icon-container">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                    </div>
+                                    <h4>Multi-User Role Management</h4>
+                                </div>
+                                <p>Implement RBAC (Role-Based Access Controls) defining levels for Investigating Officers, System Admins, and Superiors.</p>
+                            </div>
+
+                            <div class="scope-card">
+                                <div class="scope-header">
+                                    <div class="scope-icon-container">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                                    </div>
+                                    <h4>Email & SMS Notifications</h4>
+                                </div>
+                                <p>Automated SMS and email updates to victims upon complaint status changes and real-time alerts to officers for high-risk targets.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- --- Case Explorer Details Modal --- -->
+    <div id="case-modal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Complaint Dossier Details</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-details-content">
+                <!-- Built dynamically -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="btn-modal-close">Close Dossier</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script imports -->
+    <script src="storage.js"></script>
+    <script src="analyzer.js"></script>
+    <script src="app.js"></script>
+    <script>
+        // Set default date picker to current date in registration form
+        document.getElementById('reg-date').valueAsDate = new Date();
+    </script>
+</body>
+</html>
